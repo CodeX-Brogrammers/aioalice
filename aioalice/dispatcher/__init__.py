@@ -1,11 +1,12 @@
 import aiohttp
 import asyncio
+import orjson
 
 from aioalice.dispatcher import api
 from aioalice.dispatcher.handler import Handler, SkipHandler
 from aioalice.dispatcher.storage import DisabledStorage, MemoryStorage, DEFAULT_STATE
 from aioalice.dispatcher.filters import generate_default_filters, ExceptionsFilter
-from aioalice.utils import json, exceptions
+from aioalice.utils import exceptions
 from aioalice.types import UploadedImage, Quota
 
 
@@ -28,7 +29,9 @@ class Dispatcher:
     def session(self):
         if self.__session is None:
             self.__session = aiohttp.ClientSession(
-                loop=self.loop, json_serialize=json.dumps
+                loop=self.loop, json_serialize=lambda x: orjson.dumps(  # pylint: disable=no-member
+                    x
+                ).decode()
             )
         return self.__session
 
