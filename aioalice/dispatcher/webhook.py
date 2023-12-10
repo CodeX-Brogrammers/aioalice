@@ -6,7 +6,8 @@ from typing import TYPE_CHECKING
 
 from aiohttp import web
 
-from aioalice.utils import json, generate_json_payload
+import orjson
+from aioalice.utils import generate_json_payload
 from aioalice.types import AliceRequest, AliceResponse, Response
 
 if sys.version_info >= (3, 7):
@@ -68,7 +69,7 @@ class WebhookRequestHandler(web.View):
         Read request from stream and deserialize it.
         :return: :class:`aioalice.types.AliceRequest`
         """
-        data = await self.request.json()
+        data = await self.request.json(loads=orjson.loads)
         try:
             return AliceRequest(self.request, **data)
         except Exception:
@@ -184,7 +185,9 @@ class WebhookRequestHandler(web.View):
         # request has to be passed to generate fallback value
         # if None is returned from process_request or on timeout
         response = self.get_response(result, request)
-        return web.json_response(response, dumps=json.dumps)
+        return web.json_response(response, dumps=lambda x: orjson.dumps(  # pylint: disable=no-member
+            x
+        ).decode())
 
 
 def configure_app(app, dispatcher, path=DEFAULT_WEB_PATH,

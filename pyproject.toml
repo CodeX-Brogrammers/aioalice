@@ -1,0 +1,22 @@
+[tool.poetry]
+name = "aioAlice"
+version = "1.5.1"
+description = "Asynchronous library for Yandex Dialogs (Alice) API"
+authors = ["Suren Khorenyan <surenkhorenyan@gmail.com>", "rf0x3d <yarekfrolov@gmail.com>"]
+readme = "README-PyPI.md"
+packages = [{include = "aioalice"}]
+
+[tool.poetry.dependencies]
+python = "^3.7"
+aiohttp = "^3.3.2"
+attrs = "20.3.0"
+orjson = "^3.9.7"
+
+[tool.poetry.dev-dependencies]
+wheel = "^0.33.4"
+twine = "^1.13.0"
+pytest = "5.3.5"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

@@ -20,8 +20,8 @@
 ### Installation
 
 ```bash
-# make sure you use virtual env and python 3.6+:
-python3.6 -m venv aliceenv
+# make sure you use virtual env and python 3.7+:
+python3.7 -m venv aliceenv
 source ./aliceenv/bin/activate
 
 pip install pip -U
